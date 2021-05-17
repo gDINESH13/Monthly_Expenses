@@ -1,0 +1,115 @@
+
+        
+{% load static %}
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}MonthlyExpense{% endblock %}</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'Styles.css' %}" />
+        <script src="https://kit.fontawesome.com/6a0d9c6177.js" crossorigin="anonymous"></script>  
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+        <script>
+          var color=['#FFEC00', '#FF7300','#FF0000','#52D726','#007ED6','#7CDDDD', '#7CDDDD', '#F54F52','#F54F52']
+          var income = {
+            type: 'pie',
+            data: {
+              datasets: [{
+                      data: {{Income_data|safe}},
+                      backgroundColor:color ,           
+                      label: 'Income'
+                          }],
+                      labels:{{Income_labels|safe}}
+                      },
+
+            options: {
+              responsive: true
+            }
+          };
+          var expense = {
+            type: 'pie',
+            data: {
+              datasets: [{
+                      data: {{Expense_data|safe}},
+                      backgroundColor:color ,           
+                      label: 'Expense'
+                          }],
+                      labels:{{Expense_labels|safe}}
+                      },
+
+            options: {
+              responsive: true
+            }
+          };
+          var total = {
+            type: 'pie',
+            data: {
+              datasets: [{
+                      data: {{total_data|safe}},
+                      backgroundColor:color ,           
+                      label: 'Total'
+                          }],
+                      labels:{{total_labels|safe}}
+                      },
+
+            options: {
+              responsive: true
+            }
+          };
+        
+          window.onload = function() {
+            var inc = document.getElementById('pie-chart').getContext('2d');
+            var exp = document.getElementById('pie-chart1').getContext('2d');
+            var tot = document.getElementById('pie-chart2').getContext('2d');
+            window.myPie = new Chart(inc, income);
+            window.myPie = new Chart(exp, expense);
+            window.myPie = new Chart(tot,total);
+          };
+        
+        </script>
+        
+    </head>
+    <body style="background: url(https://i.postimg.cc/GppXkWLH/back.jpg); background-size: cover; height:90%" >
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+            <a class="navbar-brand" href="{% url 'index' %}">Network</a>
+          
+            <div >
+              <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><strong>{{ user.username }}</strong></a>
+                        
+
+                    </li>
+                    <li class="nav-item">    
+                        <a class="nav-link" href="{% url 'details' %}">TrackYourMoney</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">logout</a>
+                    </li>
+                {% endif %}
+                
+              
+            </div>
+          </nav>
+        <div style="display: flex;">
+          <h3 style="margin-top: 1%; color: cornsilk; margin-left: 18%;">Income PieChart</h3>
+          <h3 style="margin-top: 1%; color: cornsilk; margin-left: 35%;">Expense PieChart</h3>
+        </div>
+        <div id="container" style="width: 50%; margin-top: 3%; display: flex;">
+            
+            <canvas id="pie-chart"></canvas>  
+            <canvas id="pie-chart1"></canvas>
+        </div>
+        <h3 style="margin-top: 1%; color: cornsilk; margin-left: 38%;">Income-Expense PieChart</h3>
+        <div id="container" style="width: 50%; margin-top: 2%; margin-left:22%">  
+          <canvas id="pie-chart2"></canvas>  
+          
+        </div>
+        
+    </body>
+</html>
+
+

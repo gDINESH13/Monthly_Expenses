@@ -1,0 +1,26 @@
+{% extends 'layout.html' %} 
+{% load custom_tags %}
+
+{% block body %}
+    
+    
+    {% for date,expense,income in total %}
+        <div id="trackofmoney" > 
+            <sapn ><h4>on:{{date}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'piechart' date income expense %}" class="btn btn-warning" role="button" >View Report</a></h4>     </span>
+            <p style="font-size: 30px;">Total Income : <Strong>{{income}}</Strong></p>
+            <p style="font-size: 30px;">Total Expense : <Strong>{{expense}}</Strong></p>
+            
+            {% if  income|sub:expense  > 0 %}
+                <h5 style="color: green;">Great today you saved <strong>{{ income|sub:expense}}</strong></h5>
+            {% elif  income|sub:expense == 0 %}
+                <h5 style="color: #c4c4b8;">You spendings & earnings are equal </strong></h5>
+            {% else %}
+                <h5 style="color: red;">You spent  <strong>{{ income|sub:expense}}</strong> from your wallet.</h5>
+            {% endif %}
+            
+        </div>
+    {% endfor%}
+    
+
+{% endblock %}

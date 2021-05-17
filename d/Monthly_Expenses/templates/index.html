@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+<div style="margin-top:4%;">
+    <div class="Expense">
+        <h2>Enter your  Expenses</h2>
+        
+        <form action="{% url 'index' %}" method="POST" name="Expense">
+            {% csrf_token %}
+            <p><input type="text" placeholder="TypeofExpense" name="TypeofExpense" id="inputtags" required></p>
+            <p><input type="number" placeholder="AmountSpent" name="AmountSpent"  id="inputtags" required></p>
+            <p><input type="date"   name="date" id="inputtags" required></p>
+            <p><Button type="submit"  name="expense"  >ADD</Button></p>
+            
+        </form>
+    </div>
+    <div class="Income">
+        <h2>Enter your  Incomes</h2>
+        
+        <form action="{% url 'index' %}" method="POST" name="Income">
+            {% csrf_token %}
+            <p><input type="text" placeholder="TypeofIncome" name="TypeofIncome" id="inputtags"required></p>
+            <p><input type="number" placeholder="AmountEarned" name="AmountEarned"  id="inputtags" required></p>
+            <p><input type="date"   name="date" id="inputtags"required></p>
+            <p><Button type="submit"  name="Income"  >ADD</Button></p>
+            
+        </form>
+    </div>
+</div>
+{% endblock %}
